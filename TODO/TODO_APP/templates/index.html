@@ -1,0 +1,46 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+<nav class="navbar bg-body-tertiary">
+  <div class="container-fluid">
+    <form class="d-flex" role="search" method='POST'>
+     {% csrf_token %}
+      <input class="form-control me-2" type="search" placeholder="Enter your task" aria-label="Search" name="todo">
+      <button class="btn btn-outline-success" type="submit">Submit</button>
+    </form>
+  </div>
+</nav>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Task</th>
+      <th scope="col">Status</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for task in todos %}
+  <tr> 
+    <td>{{task.todo_name}}</td>
+    {% if task.status %}
+    <td>Completed</td>
+    {% else %}
+    <td>In progress</td> 
+    {% endif %}
+    <td>
+      <button>Delete</button>
+      <button>Completed</button>
+    </td>
+  </tr>
+    {% endfor %}
+  </tbody>
+</table> 
+
+<a href="{% url 'logout'%}"> <button class="btn btn-danger"> Logout </button> </a>
+{% else %}
+<a href="{% url 'login'%}"> <button class="btn btn-primary"> Login </button> </a>
+{% endif %}
+{% endblock %}
